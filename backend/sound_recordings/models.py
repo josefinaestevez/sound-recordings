@@ -54,3 +54,6 @@ class InputReportMatch(models.Model):
     selected = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+    	return '%s / %s SCORE: %s' % (self.sound_recording, self.input_report, self.similarity_score)
