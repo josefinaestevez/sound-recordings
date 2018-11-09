@@ -12,6 +12,9 @@ class RecordBase(models.Model):
     class Meta:
         abstract = True
 
+    def __str__(self):
+    	return '%s - %s - %s - %s' % (self.artist, self.title, self.isrc, self.duration)
+
 
 class SoundRecording(RecordBase):
     pass
