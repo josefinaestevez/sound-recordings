@@ -25,7 +25,9 @@ SECRET_KEY = 'v)8p$7==(hg*j&l!@h(=(8p(&_&yhiset(&7&!5u_k)(a&cg&^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost'
+]
 
 
 # Application definition
