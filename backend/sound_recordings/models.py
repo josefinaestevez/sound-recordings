@@ -5,10 +5,10 @@ from sound_recordings.utils import similar
 
 
 class RecordBase(models.Model):
-    artist = models.CharField(max_length=200)
-    title = models.CharField(max_length=200)
-    isrc = models.CharField(max_length=20)
-    duration = models.CharField(max_length=10)
+    artist = models.CharField(max_length=200, null=True, blank=True)
+    title = models.CharField(max_length=200, null=True, blank=True)
+    isrc = models.CharField(max_length=20, null=True, blank=True)
+    duration = models.CharField(max_length=10, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -57,3 +57,13 @@ class InputReportMatch(models.Model):
 
     def __str__(self):
     	return '%s / %s SCORE: %s' % (self.sound_recording, self.input_report, self.similarity_score)
+
+    def save(self, *args, **kwargs):
+        super(InputReportMatch, self).save(*args, **kwargs)
+        if self.selected:
+            self.input_report.matched = True
+            self.input_report.save()
+
+
+
+
