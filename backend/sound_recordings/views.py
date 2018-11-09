@@ -1,7 +1,10 @@
+from django.http import Http404
+
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from sound_recordings.models import InputReport
-from sound_recordings.serializers import InputReportSerializer
+from sound_recordings.models import InputReport, InputReportMatch
+from sound_recordings.serializers import InputReportSerializer, InputReportMatchSerializer
 
 
 class InputReportList(APIView):
@@ -14,3 +17,28 @@ class InputReportList(APIView):
             matched=False).order_by('artist', 'title')
         serializer = InputReportSerializer(input_reports, many=True)
         return Response(serializer.data)
+
+
+class InputReportMatchDetail(APIView):
+    """
+    Retrieve a input report match
+    """
+
+    def get_object(self, input_report_pk, match_pk):
+        try:
+            return InputReportMatch.objects.get(pk=match_pk, input_report__pk=input_report_pk)
+        except InputReportMatch.DoesNotExist:
+            raise Http404
+
+    def get(self, request, input_report_pk, match_pk, format=None):
+        input_report_match = self.get_object(input_report_pk, match_pk)
+        serializer = InputReportMatchSerializer(input_report_match)
+        return Response(serializer.data)
+
+    def put(self, request, input_report_pk, match_pk, format=None):
+    	input_report_match = self.get_object(input_report_pk, match_pk)
+    	serializer = InputReportMatchSerializer(input_report_match, data=request.data)
+    	if serializer.is_valid():
+    		serializer.save()
+    		return Response(serializer.data)
+    	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
