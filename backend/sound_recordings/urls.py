@@ -5,6 +5,7 @@ from sound_recordings import views
 
 urlpatterns = [
     path('input_reports/', views.InputReportList.as_view()),
+    path('input_reports/<int:input_report_pk>/matches/', views.InputReportMatchesList.as_view()),
     path('input_reports/<int:input_report_pk>/matches/<int:match_pk>', views.InputReportMatchDetail.as_view()),
 ]
 
