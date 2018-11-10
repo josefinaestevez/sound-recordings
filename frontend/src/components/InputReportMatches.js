@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Table } from 'semantic-ui-react'
+import { Table, Progress } from 'semantic-ui-react'
 
 export default class InputReportMatches extends Component {
 	render () {
@@ -26,7 +26,7 @@ export default class InputReportMatches extends Component {
 								<Table.Cell>{match.sound_recording.title}</Table.Cell>
 								<Table.Cell>{match.sound_recording.isrc}</Table.Cell>
 								<Table.Cell>{match.sound_recording.duration}</Table.Cell>
-								<Table.Cell>{match.similarity_score}</Table.Cell>
+								<Table.Cell><Progress percent={match.similarity_score*100} inverted color='green' progress /></Table.Cell>
 							</Table.Row>
 						))}
 					</Table.Body>
