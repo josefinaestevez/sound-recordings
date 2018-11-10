@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container } from 'semantic-ui-react';
 
 import Header from './components/Header'
-import InputReports from './containers/InputReports'
+import SoundRecordings from './containers/SoundRecordings'
 
 import './App.css';
 
@@ -12,7 +12,7 @@ class App extends Component {
       <div>
         <Header/>
         <Container className="reports-container">
-          <InputReports />
+          <SoundRecordings />
         </Container>
       </div>
     );

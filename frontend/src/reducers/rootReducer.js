@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import inputReports from './inputReports'
+import soundRecordingsReducer from './soundRecordingsReducer'
 
 const soundRecordings = combineReducers({
-	inputReports
+	soundRecordingsReducer
 })
 
 export default soundRecordings
