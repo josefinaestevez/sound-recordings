@@ -14,7 +14,7 @@ class InputReportMatchSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = InputReportMatch
-        fields = ('pk', 'sound_recording', 'similarity_score')
+        fields = ('pk', 'sound_recording', 'similarity_score', 'selected')
 
 
 class InputReportSerializer(serializers.ModelSerializer):
