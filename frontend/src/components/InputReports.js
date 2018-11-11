@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import { Table, Transition } from 'semantic-ui-react'
 
 export default class InputReports extends Component {
+	
 	render () {
 
 		const { inputReports, handleClick, currentInputPk } = this.props

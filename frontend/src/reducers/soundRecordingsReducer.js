@@ -34,11 +34,13 @@ export default (state = defaultState, action) => {
 			return {
 				...state,
 				isFetchingReports: true,
+				reportsError: null,
 			};
 		case FETCH_INPUT_REPORTS_SUCCESS:
 			return{
 				...state,
 				isFetchingReports: false,
+				reportsError: null,
 				inputReports: action.inputReports,
 			};
 		case FETCH_INPUT_REPORTS_FAILURE:
@@ -51,11 +53,13 @@ export default (state = defaultState, action) => {
 			return {
 				...state,
 				isFetchingMatches: true,
+				matchesError: null,
 			};
 		case FETCH_MATCHES_SUCCESS:
 			return{
 				...state,
 				isFetchingMatches: false,
+				matchesError: null,
 				currentInputPk: action.currentInputPk,
 				matches: action.matches,
 			};
