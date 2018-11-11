@@ -4,7 +4,7 @@ import { Table, Progress } from 'semantic-ui-react'
 export default class InputReportMatches extends Component {
 	render () {
 
-		const { matches } = this.props
+		const { matches, currentInputPk, handleClick } = this.props
 		
 		return (
 			<div className="input-report-table matches-container">
@@ -21,7 +21,7 @@ export default class InputReportMatches extends Component {
 					</Table.Header>
 				 	<Table.Body>
 						{matches.map(match => (
-							<Table.Row key={match.pk}>
+							<Table.Row key={match.pk} onClick={() => handleClick(currentInputPk, match)}>
 								<Table.Cell>{match.sound_recording.artist}</Table.Cell>
 								<Table.Cell>{match.sound_recording.title}</Table.Cell>
 								<Table.Cell>{match.sound_recording.isrc}</Table.Cell>

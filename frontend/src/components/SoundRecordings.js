@@ -11,7 +11,20 @@ export default class SoundRecordings extends Component {
 
 	render() {
 
-		const { reportsError, isFetchingReports, inputReports, fetchMatches, matches, currentInputPk } = this.props
+		const { reportsError, isFetchingReports, inputReports, fetchMatches, matchesError, isFetchingMatches, matches, currentInputPk, selectMatch } = this.props
+		let inputReportMatchesDiv, inputReportsDiv
+
+		if(matches.length>0){
+			inputReportMatchesDiv = <InputReportMatches matches={matches} isFetchingMatches={isFetchingMatches} matchesError={matchesError} currentInputPk={currentInputPk} handleClick={selectMatch} />
+		} else if(currentInputPk!==null) {
+			inputReportMatchesDiv = <h3>No matches found</h3>
+		}
+
+		if(inputReports.length>0){
+			inputReportsDiv = <InputReports inputReports={inputReports} handleClick={fetchMatches} currentInputPk={currentInputPk} />
+		} else {
+			inputReportsDiv = <h3>No entries</h3>
+		}
 
 		if (reportsError) {
 			return <div>Error: { reportsError }</div>;
@@ -20,10 +33,8 @@ export default class SoundRecordings extends Component {
 		} else {
 			return(
 				<React.Fragment>
-					<InputReports inputReports={inputReports} handleClick={fetchMatches} currentInputPk={currentInputPk}/>
-					{ matches.length ?
-						<InputReportMatches matches={matches} /> : null
-					}
+					{inputReportsDiv}
+					{inputReportMatchesDiv}
 				</React.Fragment>
 			);
 		}

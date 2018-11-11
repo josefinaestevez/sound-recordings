@@ -71,26 +71,45 @@ export const selectMatchFailure = (error) => {
 	}
 }
 
-export function fetchMatches(inputReport) {
-	return dispatch => {
-	    dispatch(fetchMatchesPending());
-	    return fetch('http://localhost:8000/sound_recordings/input_reports/'+inputReport.pk+'/matches')
-	      .then(res => res.json())
-	      .then(matches => {
-	        dispatch(fetchMatchesSuccess(inputReport.pk, matches));
-	      })
-	      .catch(error => dispatch(fetchMatchesFailure(error)));
-	};
-}
-
 export function fetchInputReports() {
 	return dispatch => {
 	    dispatch(fetchInputReportsPending());
-	    return fetch("http://localhost:8000/sound_recordings/input_reports/")
-	      .then(res => res.json())
-	      .then(inputReports => {
-	        dispatch(fetchInputReportsSuccess(inputReports));
-	      })
-	      .catch(error => dispatch(fetchInputReportsFailure(error)));
+	    return fetch("http://localhost:8000/sound_recordings/input_reports/", {
+	    	method: 'GET',
+	    })
+	    .then(res => res.json())
+	    .then(inputReports => {
+	       	dispatch(fetchInputReportsSuccess(inputReports));
+	    })
+	    .catch(error => dispatch(fetchInputReportsFailure(error)));
+	};
+}
+
+export function fetchMatches(inputReport) {
+	return dispatch => {
+	    dispatch(fetchMatchesPending());
+	    return fetch('http://localhost:8000/sound_recordings/input_reports/'+inputReport.pk+'/matches', )
+	    .then(res => res.json())
+	    .then(matches => {
+	       	dispatch(fetchMatchesSuccess(inputReport.pk, matches));
+	    })
+	    .catch(error => dispatch(fetchMatchesFailure(error)));
+	};
+}
+
+export function selectMatch(currentInputPk, match) {
+	return dispatch => {
+	    dispatch(selectMatchPending());
+	    match.selected = true
+	    return fetch('http://localhost:8000/sound_recordings/input_reports/'+currentInputPk+'/matches/'+match.pk, {
+	    	method: 'PUT',
+	    	headers: {'Content-Type': 'application/json'},
+	    	body: JSON.stringify(match)
+	    })
+	    .then(res => res.json())
+	    .then(match => {
+	       	dispatch(selectMatchSuccess());
+	    })
+	    .catch(error => dispatch(selectMatchFailure(error)));
 	};
 }

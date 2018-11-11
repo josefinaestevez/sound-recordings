@@ -22,6 +22,12 @@ const defaultState = {
 	currentInputPk: null,
 };
 
+function removeCurrentInput(inputReports, currentInputPk){
+	return inputReports.filter(function(inputReport){
+       return inputReport.pk !== currentInputPk;
+   });
+}
+
 export default (state = defaultState, action) => {
 	switch(action.type){
 		case FETCH_INPUT_REPORTS_PENDING:
@@ -67,7 +73,9 @@ export default (state = defaultState, action) => {
 		case SELECT_MATCH_SUCCESS:
 			return{
 				...state,
-				inputReports: action.inputReports,
+				inputReports: removeCurrentInput(state.inputReports, state.currentInputPk),
+				matches: [],
+				currentInputPk: null,
 			};
 		case SELECT_MATCH_FAILURE:
 			return{

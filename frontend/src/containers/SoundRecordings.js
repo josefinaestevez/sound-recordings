@@ -1,11 +1,12 @@
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import SoundRecordingsView from '../components/SoundRecordings'
-import { fetchInputReports, fetchMatches } from '../actions/inputReportsActions'
+import { fetchInputReports, fetchMatches, selectMatch } from '../actions/inputReportsActions'
 
 const mapDispatchToProps = dispatch => bindActionCreators({
 	fetchInputReports,
 	fetchMatches,
+	selectMatch,
 }, dispatch)
 
 const mapStateToProps = state => {
