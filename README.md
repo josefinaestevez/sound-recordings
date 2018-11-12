@@ -20,7 +20,7 @@ Database
 1. Create database
 
 ```bash
-$ sudo -u postgresql psql
+$ sudo -u postgres psql
 $ postgres=# CREATE DATABASE database;
 $ postgres=# CREATE USER user WITH ENCRYPTED PASSWORD 'password';
 $ postgres=# GRANT ALL PRIVILEGES ON DATABASE database TO user;
@@ -54,10 +54,14 @@ DATABASES = {
 
 ## Frontend
 
-### Running
+### Installation
 
 1. Go to frontend subfolder.
-2. Run `npm start`
+2. Run `$ npm install`
+
+### Running
+
+Run `$ npm start`
 
 Thats it!
 
