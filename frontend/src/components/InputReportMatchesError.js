@@ -1,16 +1,15 @@
-import React, {Component} from 'react'
-import { Message } from 'semantic-ui-react'
+import React, { Component } from 'react';
+import { Message } from 'semantic-ui-react';
 
 export default class InputReportsError extends Component {
-	render () {
+  render() {
+    const { matchesError } = this.props;
 
-		const { matchesError } = this.props
-		
-		return (
-			<Message negative>
-			    <Message.Header>We're sorry we can't load matches</Message.Header>
-			    <p>{matchesError.message}</p>
-			</Message>
-		)
-	}
+    return (
+      <Message negative>
+        <Message.Header>We're sorry we can't load matches</Message.Header>
+        <p>{matchesError.message}</p>
+      </Message>
+    );
+  }
 }
