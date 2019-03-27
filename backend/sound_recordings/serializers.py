@@ -10,11 +10,10 @@ class SoundRecordingSerializer(serializers.ModelSerializer):
 
 
 class InputReportMatchSerializer(serializers.ModelSerializer):
-    sound_recording = SoundRecordingSerializer(read_only=True)
-
+    
     class Meta:
         model = InputReportMatch
-        fields = ('pk', 'sound_recording', 'similarity_score', 'selected')
+        fields = ('pk', 'title', 'artist', 'isrc', 'duration', 'similarity_score', 'selected')
 
 
 class InputReportSerializer(serializers.ModelSerializer):

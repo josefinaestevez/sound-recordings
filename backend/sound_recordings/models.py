@@ -64,6 +64,22 @@ class InputReportMatch(models.Model):
             self.input_report.matched = True
             self.input_report.save()
 
+    @property
+    def title(self):
+        return self.sound_recording.title
+    
+    @property
+    def artist(self):
+        return self.sound_recording.artist
+
+    @property
+    def isrc(self):
+        return self.sound_recording.isrc
+
+    @property
+    def duration(self):
+        return self.sound_recording.duration
+
 
 
 
