@@ -19,13 +19,8 @@ import axios from 'axios'
 
 import CustomTable from '@/components/CustomTable'
 
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faEdit } from '@fortawesome/free-solid-svg-icons'
-
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
-
-library.add(faEdit)
 
 export default {
   components: {
