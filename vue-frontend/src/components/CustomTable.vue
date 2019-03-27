@@ -12,6 +12,11 @@
           <b-progress :value="Number(data.item.similarity_score)*100" show-progress class="mb-3" />
       </template>
 
+      <!-- Input Report Detail -->
+      <template slot="edit" slot-scope="data">
+        <router-link :to="{ name: 'detail', params: { id: data.item.pk }}"><font-awesome-icon icon="edit" /></router-link>
+      </template>
+
     </b-table>
 
   </div>
