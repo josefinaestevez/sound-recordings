@@ -1,22 +1,23 @@
 from django.http import Http404
 
 from rest_framework import status
+from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from sound_recordings.models import InputReport, InputReportMatch
 from sound_recordings.serializers import InputReportSerializer, InputReportMatchSerializer
 
 
-class InputReportList(APIView):
-    """
-    List all input reports
-    """
+class InputReportList(generics.ListAPIView):
+    queryset = InputReport.objects.all()
+    serializer_class = InputReportSerializer
 
-    def get(self, request, format=None):
-        input_reports = InputReport.objects.filter(
-            matched=False).order_by('artist', 'title')
-        serializer = InputReportSerializer(input_reports, many=True)
-        return Response(serializer.data)
+    def get_queryset(self):
+        queryset = self.queryset.order_by('artist', 'title')
+        matched = self.request.query_params.get('matched', None)
+        if matched is not None:
+            queryset = queryset.filter(matched=matched)
+        return queryset
 
 
 class InputReportMatchesList(APIView):
