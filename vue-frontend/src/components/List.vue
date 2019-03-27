@@ -7,6 +7,10 @@
             <b-spinner class="align-middle" />
             <strong> Loading...</strong>
           </div>
+          <!-- Input Report Detail -->
+          <template slot="edit" slot-scope="data">
+            <router-link :to="{ name: 'detail', params: { id: data.item.pk }}"><font-awesome-icon icon="edit" /></router-link>
+          </template>
         </b-table>
       </b-tab>
       <b-tab title="Matched" @click="setMatchedInputRecords()">
@@ -15,6 +19,10 @@
             <b-spinner class="align-middle" />
             <strong> Loading...</strong>
           </div>
+          <!-- Input Report Detail -->
+          <template slot="edit" slot-scope="data">
+            <router-link :to="{ name: 'detail', params: { id: data.item.pk }}"><font-awesome-icon icon="edit" /></router-link>
+          </template>
         </b-table>
       </b-tab>
       <b-tab title="All" @click="setAllInputRecords()">
@@ -23,6 +31,10 @@
             <b-spinner class="align-middle" />
             <strong> Loading...</strong>
           </div>
+          <!-- Input Report Detail -->
+          <template slot="edit" slot-scope="data">
+            <router-link :to="{ name: 'detail', params: { id: data.item.pk }}"><font-awesome-icon icon="edit" /></router-link>
+          </template>
         </b-table>
       </b-tab>
     </b-tabs>
@@ -32,8 +44,13 @@
 <script>
 import axios from 'axios'
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
+
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+
+library.add(faEdit)
 
 export default {
   data () {

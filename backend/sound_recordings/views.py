@@ -20,6 +20,23 @@ class InputReportList(generics.ListAPIView):
         return queryset
 
 
+class InputReportDetail(APIView):
+    """
+    Retrieve a input report
+    """
+
+    def get_object(self, input_report_pk):
+        try:
+            return InputReport.objects.get(pk=input_report_pk)
+        except InputReport.DoesNotExist:
+            raise Http404
+
+    def get(self, request, input_report_pk, format=None):
+        input_report = self.get_object(input_report_pk)
+        serializer = InputReportSerializer(input_report)
+        return Response(serializer.data)
+
+
 class InputReportMatchesList(APIView):
     """
     List all matches for an input report
