@@ -61,8 +61,9 @@ export default {
       axios
         .get('http://localhost:8000/api/input_reports/' + this.$route.params.id + '/matches')
         .then(response => {
-          let inputReports = response.data
-          this.inputReportMatches = inputReports.filter(match => match.selected == false)
+          const inputReports = response.data
+          this.inputReportMatches = inputReports
+          // this.inputReportMatches = inputReports.filter(match => match.selected == false)
         })
     }
   }

@@ -61,6 +61,7 @@ class InputReportMatch(models.Model):
     def save(self, *args, **kwargs):
         super(InputReportMatch, self).save(*args, **kwargs)
         if self.selected:
+            self.__class__.objects.filter(input_report__pk=self.input_report.pk).exclude(pk=self.pk).update(selected=False)
             self.input_report.matched = True
             self.input_report.save()
 
