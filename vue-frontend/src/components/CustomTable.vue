@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-table striped hover :fields="fields" :items="inputReports" :busy="isBusy">
+    <b-table striped hover :fields="fields" :items="inputReports" :busy="isBusy" :class="{ green: customClass == 'green' }">
 
       <!-- Spinner while loading input reports -->
       <div slot="table-busy" class="text-center text-danger my-2">
@@ -58,6 +58,7 @@ export default {
     fields: Array,
     inputReports: Array,
     isBusy: Boolean,
+    customClass: String
   },
 
   data () {
@@ -84,11 +85,15 @@ export default {
       axios
         .put(url, match)
         .then(response => {
-          const data = response
-          console.log(data)
+          const selectedMatch = response.data
           this.confirmMatchModal = false
         })
     }
   }
 }
 </script>
+<style>
+  .green {
+    background-color: #a7f7a79e;
+  }
+</style>

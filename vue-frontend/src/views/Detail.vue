@@ -3,6 +3,10 @@
     <b-card>
       <b-card-text>Sound recording detail:</b-card-text>
       <customTable :fields="inputReportFields" :inputReports="inputReport"></customTable>
+      <div v-if="currentMatch.length > 0">
+        <b-card-text>Current Match:</b-card-text>
+        <customTable :fields="currentMatchFields" :inputReports="currentMatch" customClass="green"></customTable>
+      </div>
       <b-card-text>Choose the right candidate from the list:</b-card-text>
       <customTable :fields="inputReportMatchFields" :inputReports="inputReportMatches"></customTable>
     </b-card>
@@ -31,6 +35,7 @@ export default {
         'isrc',
         'duration'
       ],
+      inputReportMatch: null,
       inputReportMatches: [],
       inputReportMatchFields: [
         'title',
@@ -38,9 +43,21 @@ export default {
         'isrc',
         'duration',
         'similarity_score',
-        'selected',
         'match'
-      ]
+      ],
+      currentMatchFields: [
+        'title',
+        'artist',
+        'isrc',
+        'duration',
+        'similarity_score',
+      ],
+    }
+  },
+
+  computed: {
+    currentMatch: function () {
+      return this.inputReportMatch ? [ this.inputReportMatch ] : []
     }
   },
 
@@ -62,8 +79,11 @@ export default {
         .get('http://localhost:8000/api/input_reports/' + this.$route.params.id + '/matches')
         .then(response => {
           const inputReports = response.data
-          this.inputReportMatches = inputReports
-          // this.inputReportMatches = inputReports.filter(match => match.selected == false)
+          this.inputReportMatches = inputReports.filter(match => match.selected == false)
+          const selectedReports = inputReports.filter(match => match.selected == true)
+          if(selectedReports.length > 0) {
+            this.inputReportMatch = selectedReports[0]
+          }
         })
     }
   }

@@ -26,6 +26,7 @@ export default {
   components: {
     CustomTable
   },
+
   data () {
     return {
       isBusy: true,
@@ -42,9 +43,11 @@ export default {
       ]
     }
   },
+
   mounted () {
     this.setUnmatchedInputRecords()
   },
+  
   methods: {
     setUnmatchedInputRecords: function () {
       this.isBusy = true
