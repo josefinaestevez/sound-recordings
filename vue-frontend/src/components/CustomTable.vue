@@ -45,6 +45,8 @@
 <script>
 import axios from 'axios'
 
+import { eventBus } from '@/event-bus'
+
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faEdit, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 
@@ -85,7 +87,8 @@ export default {
       axios
         .put(url, match)
         .then(response => {
-          const selectedMatch = response.data
+          const match = response.data
+          eventBus.setCurrentMatch(match)
           this.confirmMatchModal = false
         })
     }

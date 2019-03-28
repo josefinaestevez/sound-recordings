@@ -3,19 +3,19 @@
     <b-card>
       <b-card-text>Sound recording detail:</b-card-text>
       <customTable :fields="inputReportFields" :inputReports="inputReport"></customTable>
-      <div v-if="currentMatch.length > 0">
+      <div v-if="matchedRecordings.length > 0">
         <b-card-text>Current Match:</b-card-text>
-        <customTable :fields="currentMatchFields" :inputReports="currentMatch" customClass="green"></customTable>
+        <customTable :fields="currentMatchFields" :inputReports="matchedRecordings" customClass="green"></customTable>
       </div>
       <b-card-text>Choose the right candidate from the list:</b-card-text>
-      <customTable :fields="inputReportMatchFields" :inputReports="inputReportMatches"></customTable>
+      <customTable :fields="inputReportMatchFields" :inputReports="unmatchedRecordings" primary-key="pk"></customTable>
     </b-card>
   </b-container>
 </template>
 
 <script>
 import axios from 'axios'
-
+import { eventBus } from '@/event-bus'
 import CustomTable from '@/components/CustomTable'
 
 axios.defaults.xsrfCookieName = 'csrftoken'
@@ -28,6 +28,7 @@ export default {
 
   data () {
     return {
+      // Should be only ONE input report object, but we need to send a list to bootstrap table component
       inputReport: [],
       inputReportFields: [
         'title',
@@ -35,8 +36,8 @@ export default {
         'isrc',
         'duration'
       ],
-      inputReportMatch: null,
-      inputReportMatches: [],
+      currentMatch: null,
+      unmatchedRecordings: [],
       inputReportMatchFields: [
         'title',
         'artist',
@@ -56,14 +57,23 @@ export default {
   },
 
   computed: {
-    currentMatch: function () {
-      return this.inputReportMatch ? [ this.inputReportMatch ] : []
+    // Should be only ONE current match object, but we need to send a list to bootstrap table component
+    matchedRecordings: function () {
+      return this.currentMatch ? [ this.currentMatch ] : []
     }
+  },
+
+  created () {
+    eventBus.$on('currentMatchSelected', this.selectMatch)
   },
 
   mounted () {
     this.getInputReport()
     this.getInputReportMatches()
+  },
+
+  destroyed () {
+    eventBus.$off('currentMatchSelected', this.selectMatch)
   },
 
   methods: {
@@ -74,17 +84,29 @@ export default {
           this.inputReport = [response.data]
         })
     },
+
     getInputReportMatches () {
       axios
         .get('http://localhost:8000/api/input_reports/' + this.$route.params.id + '/matches')
         .then(response => {
-          const inputReports = response.data
-          this.inputReportMatches = inputReports.filter(match => match.selected == false)
-          const selectedReports = inputReports.filter(match => match.selected == true)
-          if(selectedReports.length > 0) {
-            this.inputReportMatch = selectedReports[0]
-          }
+          const inputReportMatches = response.data
+          this.unmatchedRecordings = inputReportMatches.filter(match => match.selected == false)
+          this.currentMatch = inputReportMatches.find(match => match.selected == true)
         })
+    },
+
+    selectMatch (newMatch) {
+      if (this.currentMatch) {
+        // If we already have an old match we should added as unmatched since we have a new one
+        this.unmatchedRecordings = [ ...this.unmatchedRecordings, ...this.matchedRecordings ]
+      }
+
+      // We should remove the new current match from unmatched ones
+      const index = this.unmatchedRecordings.findIndex(match => match.pk == newMatch.pk)
+      this.$delete(this.unmatchedRecordings, index)
+
+      // Now we should add the new match to our current match object
+      this.currentMatch =  newMatch
     }
   }
 }
