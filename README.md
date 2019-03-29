@@ -9,7 +9,9 @@
 
 - Run `$ ./run.sh`  
 
-	*Thats it!*
+    *Thats it!*
+    
+    *(backend will be runing on port 8000 and frontend in 8080, so be sure you're not using them)*
 
 ### Answers
 
